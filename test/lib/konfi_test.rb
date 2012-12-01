@@ -3,7 +3,7 @@ require 'test_helper'
 class KonfiTest < MiniTest::Unit::TestCase
   def setup
     Konfi.build :dev do
-      env :dev, :parent => :prod do
+      env :dev, :parent => :stage do
         key0 "value"
         key1 do
           nested_key "value1"
@@ -14,8 +14,13 @@ class KonfiTest < MiniTest::Unit::TestCase
         new "new"
         env "env"
       end
+
       env :test, :parent => :dev do
       end
+
+      env :stage, parent: :prod do
+      end
+
       env :prod do
         key2 'value2'
         key1 do

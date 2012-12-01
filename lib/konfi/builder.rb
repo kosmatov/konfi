@@ -15,6 +15,7 @@ class Konfi::Builder
 
     puts "anc =====#{@ancestry}"
 
+    check_cycle!(env)
     santa_barbara(env)
 
     @config = Konfi::Config.new @envs[env]
@@ -27,14 +28,13 @@ class Konfi::Builder
   end
 
   def santa_barbara(env)
-    check_cycle(env)
-
     if parent = @ancestry[env]
-      @envs[env] = @envs[parent].deep_merge @envs[env]
+      @envs[env] = santa_barbara(parent).deep_merge @envs[env]
     end
+    @envs[env]
   end
 
-  def check_cycle(env)
+  def check_cycle!(env)
     tmp_env = env
     found_envs = [tmp_env]
     while @ancestry[tmp_env]
