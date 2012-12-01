@@ -1,6 +1,7 @@
 class Konfi::Config
 
   def initialize(hash)
+    @hash = hash
     hash.each do |k, v|
       define_singleton_method(k) do
         if v.is_a?(Hash)
@@ -16,4 +17,7 @@ class Konfi::Config
     send key
   end
 
+  def to_hash
+    @hash
+  end
 end

@@ -76,4 +76,28 @@ class KonfiTest < MiniTest::Unit::TestCase
     assert_equal nil, konfi.key1.anil_key
   end
 
+  def test_orphan
+    assert_raises OrphanException do
+      Konfi.build :dev do
+        env :dev, :parent => :prod do
+          key0 "value"
+        end
+      end
+    end
+  end
+
+  def test_to_hash
+    hash = { key0: "value0", key1: { nested_key: "nested value" } }
+    Konfi.build :dev do
+      env :dev do
+        key0 "value0"
+        key1 do
+          nested_key "nested value"
+        end
+      end
+    end
+
+    assert_equal hash, konfi.to_hash
+    assert_equal hash[:key1], konfi.key1.to_hash
+  end
 end

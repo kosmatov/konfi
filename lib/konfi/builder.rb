@@ -1,4 +1,5 @@
 class ConfigCycleException < StandardError; end
+class OrphanException < StandardError; end
 
 class Konfi::Builder
   attr_reader :config
@@ -12,8 +13,6 @@ class Konfi::Builder
     @envs = {}
     @ancestry = {}
     instance_eval(&block)
-
-    puts "anc =====#{@ancestry}"
 
     check_cycle!(env)
     santa_barbara(env)
@@ -29,6 +28,7 @@ class Konfi::Builder
 
   def santa_barbara(env)
     if parent = @ancestry[env]
+      raise OrphanException.new unless @envs.include? parent
       @envs[env] = santa_barbara(parent).deep_merge @envs[env]
     end
     @envs[env]
@@ -42,6 +42,5 @@ class Konfi::Builder
       raise ConfigCycleException.new if found_envs.include? tmp_env
       found_envs << tmp_env
     end
-
   end
 end
