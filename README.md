@@ -1,6 +1,6 @@
 # Konfi
 
-TODO: Write a gem description
+Konfi is a gem for creating global application configuration
 
 ## Installation
 
@@ -18,7 +18,6 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
 
 ## Contributing
 
