@@ -4,20 +4,7 @@ Konfi is a gem for creating global application configuration
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'konfi'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install konfi
-
 ## Usage
-
 
 ## Contributing
 
