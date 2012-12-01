@@ -3,5 +3,6 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in konfi.gemspec
 gemspec
 
-gem rspec
-
+gem 'rake'
+gem 'minitest'
+gem 'turn'
