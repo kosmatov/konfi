@@ -12,7 +12,7 @@ class Konfi::ConfigItem
   end
 
   def method_missing(name, value = nil)
-    self.attrs[name] = value
+    @attrs[name] = value
   end
 
 end

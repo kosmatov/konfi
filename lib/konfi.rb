@@ -1,6 +1,7 @@
+require "konfi/core_ext/kernel"
+
 module Konfi
   autoload :Builder,     "konfi/builder"
-  autoload :Kernel,      "konfi/core_ext/kernel"
   autoload :Config,      "konfi/config"
   autoload :ConfigItem,  "konfi/config_item"
   autoload :Version,     "konfi/version"
