@@ -10,7 +10,7 @@ class Konfi::Builder
     @envs = {}
     instance_eval(&block)
 
-    self.config = Konfi::Config.build @envs[env]
+    @config = Konfi::Config.build @envs[env]
   end
 
   def env(name, &block)

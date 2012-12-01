@@ -1,4 +1,5 @@
 class Konfi::ConfigItem
+  attr_reader :attrs
 
   def self.build(&block)
     conf = new(&block)
@@ -11,7 +12,7 @@ class Konfi::ConfigItem
   end
 
   def method_missing(name, value = nil)
-    @attrs[name] = value
+    self.attrs[name] = value
   end
 
 end
