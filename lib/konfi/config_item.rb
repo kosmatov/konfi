@@ -11,8 +11,12 @@ class Konfi::ConfigItem
     instance_eval(&blk)
   end
 
-  def method_missing(name, value = nil)
-    @attrs[name] = value
+  def method_missing(name, value = nil, &block)
+    if block_given?
+      @attrs[name] = self.class.build(&block)
+    else
+      @attrs[name] = value
+    end
   end
 
 end
