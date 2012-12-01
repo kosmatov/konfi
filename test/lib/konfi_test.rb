@@ -3,14 +3,25 @@ require 'test_helper'
 class KonfiTest < MiniTest::Unit::TestCase
   def setup
     Konfi.build :dev do
-      env :dev do
+      env :dev, :parent => :prod do
         key0 "value"
         key1 do
           nested_key "value1"
+          nested_key1 "value2"
+          nil_key nil
+          anil_key
         end
         new "new"
-        #define_singleton_method "fkdsj"
         env "env"
+      end
+      env :test, :parent => :dev do
+      end
+      env :prod do
+        key2 'value2'
+        key1 do
+          nested_key "value3"
+          prod_nested_key "prod_value"
+        end
       end
     end
   end
@@ -30,4 +41,34 @@ class KonfiTest < MiniTest::Unit::TestCase
   def test_nested_as_hash
     assert_equal "value1", konfi.key1[:nested_key]
   end
+
+  def test_inheritance
+    assert_equal "value2", konfi.key2
+  end
+
+  def test_raise_on_cycle_of_inheritance
+    assert_raises ConfigCycleException do
+      Konfi.build :dev do
+        env :dev, :parent => :prod do
+          key0 "value"
+        end
+        env :test, :parent => :dev do
+        end
+        env :prod, :parent => :test do
+        end
+      end
+    end
+  end
+
+  def test_deep_merge
+    assert_equal "value1", konfi.key1.nested_key
+    assert_equal "value2", konfi.key1.nested_key1
+    assert_equal "prod_value", konfi.key1.prod_nested_key
+  end
+
+  def test_nils
+    assert_equal nil, konfi.key1.nil_key
+    assert_equal nil, konfi.key1.anil_key
+  end
+
 end

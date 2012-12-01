@@ -1,4 +1,5 @@
 require "konfi/core_ext/kernel"
+require "active_support/core_ext/hash/deep_merge"
 
 module Konfi
   autoload :Builder,     "konfi/builder"

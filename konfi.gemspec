@@ -14,4 +14,6 @@ Gem::Specification.new do |gem|
   gem.name          = "konfi"
   gem.require_paths = ["lib"]
   gem.version       = Konfi::VERSION
+
+  gem.add_dependency "activesupport"
 end
