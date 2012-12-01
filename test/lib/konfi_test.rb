@@ -10,6 +10,7 @@ class KonfiTest < MiniTest::Unit::TestCase
           nested_key1 "value2"
           nil_key nil
         end
+        key_array [1,2,3]
         new "new"
         env "env"
       end
@@ -107,5 +108,9 @@ class KonfiTest < MiniTest::Unit::TestCase
         end
       end
     end
+  end
+
+  def test_array
+    assert_equal [1,2,3], konfi.key_array
   end
 end
