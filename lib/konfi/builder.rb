@@ -7,7 +7,16 @@ class Konfi::Builder
   end
 
   def initialize(env, &block)
-    @config = nil
+    @envs = {}
+    instance_eval(&block)
+
+    self.config = Konfi::Config.build @envs[env]
+  end
+
+  def env(name, &block)
+    @envs[name] = nil #TODO переписать
+    ci = Konfi::ConfigItem.build(&block)
+    @envs[name] = ci
   end
 
 end

@@ -3,7 +3,9 @@ require 'test_helper'
 class KonfiTest < MiniTest::Unit::TestCase
   def setup
     Konfi.build :dev do
-      key "value"
+      env :dev do
+        key "value"
+      end
     end
   end
 
