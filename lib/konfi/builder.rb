@@ -1,6 +1,3 @@
-class ConfigCycleException < StandardError; end
-class OrphanException < StandardError; end
-
 class Konfi::Builder
   attr_reader :config
 
@@ -28,7 +25,7 @@ class Konfi::Builder
 
   def santa_barbara(env)
     if parent = @ancestry[env]
-      raise OrphanException.new unless @envs.include? parent
+      raise Konfi::OrphanException.new unless @envs.include? parent
       @envs[env] = santa_barbara(parent).deep_merge @envs[env]
     end
     @envs[env]
@@ -39,7 +36,7 @@ class Konfi::Builder
     found_envs = [tmp_env]
     while @ancestry[tmp_env]
       tmp_env =  @ancestry[tmp_env]
-      raise ConfigCycleException.new if found_envs.include? tmp_env
+      raise Konfi::ConfigCycleException.new if found_envs.include? tmp_env
       found_envs << tmp_env
     end
   end

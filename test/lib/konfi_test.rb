@@ -9,7 +9,6 @@ class KonfiTest < MiniTest::Unit::TestCase
           nested_key "value1"
           nested_key1 "value2"
           nil_key nil
-          anil_key
         end
         new "new"
         env "env"
@@ -52,7 +51,7 @@ class KonfiTest < MiniTest::Unit::TestCase
   end
 
   def test_raise_on_cycle_of_inheritance
-    assert_raises ConfigCycleException do
+    assert_raises Konfi::ConfigCycleException do
       Konfi.build :dev do
         env :dev, :parent => :prod do
           key0 "value"
@@ -73,11 +72,10 @@ class KonfiTest < MiniTest::Unit::TestCase
 
   def test_nils
     assert_equal nil, konfi.key1.nil_key
-    assert_equal nil, konfi.key1.anil_key
   end
 
   def test_orphan
-    assert_raises OrphanException do
+    assert_raises Konfi::OrphanException do
       Konfi.build :dev do
         env :dev, :parent => :prod do
           key0 "value"
@@ -99,5 +97,15 @@ class KonfiTest < MiniTest::Unit::TestCase
 
     assert_equal hash, konfi.to_hash
     assert_equal hash[:key1], konfi.key1.to_hash
+  end
+
+  def test_when_no_value
+    assert_raises Konfi::NoValueException do
+      Konfi.build :dev do
+        env :dev do
+          key0
+        end
+      end
+    end
   end
 end

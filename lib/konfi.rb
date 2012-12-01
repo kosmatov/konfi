@@ -7,6 +7,12 @@ module Konfi
   autoload :ConfigItem,  "konfi/config_item"
   autoload :Version,     "konfi/version"
 
+  class KonfiError < RuntimeError; end
+  
+  class NoValueException < KonfiError; end
+  class ConfigCycleException < KonfiError; end
+  class OrphanException < KonfiError; end
+
   def self.build(env, &block)
     @config = Builder.build(env, &block)
   end
